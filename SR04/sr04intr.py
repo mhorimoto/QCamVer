@@ -4,10 +4,10 @@
 import os,time
 import RPi.GPIO as GPIO
 
-TRIG = 17
-ECHO = 27
-#TRIG = 12
-#ECHO = 16
+#TRIG = 17
+#ECHO = 27
+TRIG = 12
+ECHO = 16
 
 starttime = 0
 finishtime = 0
