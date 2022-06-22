@@ -1,0 +1,11 @@
+[Unit]
+Description=Shutdown Signal Sender
+Before=shutdown.target alsa-store.service
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/ssio.py SHUTDOWN
+
+[Install]
+WantedBy=shutdown.target

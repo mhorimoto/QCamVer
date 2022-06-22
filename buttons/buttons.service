@@ -1,0 +1,11 @@
+[Unit]
+Description=Shutdown/Take a picture raspberry pi by GPIO button input
+Wants=network.target
+
+[Service]
+ExecStart=/usr/local/bin/buttons.py
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

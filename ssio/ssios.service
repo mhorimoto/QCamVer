@@ -1,0 +1,11 @@
+[Unit]
+Description = Start Signal Sender
+After = rc-local.service
+
+[Service]
+ExecStart = /usr/local/bin/ssio.py START
+Restart = oneshot
+Type = simple
+
+[Install]
+WantedBy = multi-user.target
