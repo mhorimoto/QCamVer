@@ -1,1 +1,5 @@
-Adafruit_CircuitPython_ADS1x15
+sudo apt install python3-pip
+sudo pip3 install Adafruit_CircuitPython_ADS1x15
+sudo pip3 install picamera
+sudo pip3 install netifaces
+
