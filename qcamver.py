@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import cv2
 from datetime import datetime
 import json
 import requests
@@ -102,21 +101,6 @@ if dbg:
     print("height={0:d}".format(height_avg))
 #
 ########################################
-# SR04による距離計測
-########################################
-TRIG = 12
-ECHO = 16
-distance = 0
-loopmax = 4
-for i in range(1,loopmax):
-    distance += sr04ope(TRIG,ECHO)
-    time.sleep(0.1)
-distance_avg = int(distance / (loopmax-1))
-if dbg:
-    print("distance={0:d}".format(distance_avg))
-
-#
-########################################
 # 可変抵抗器による方位角、仰角測定
 ########################################
 def getAngle(ads1x15,p0,p1,a0c,a0p,a0n,a1c,a1p,a1n):
@@ -153,30 +137,6 @@ def main():
         camera.capture(path)
         camera.close()
         files = { 'file0': open(path, 'rb') }
-    else:
-        # /dev/video0を指定
-        cap = cv2.VideoCapture(DEV_ID)
-        # 解像度の指定
-        print("WIDTH={0},HEIGHT={1}\n".format(WIDTH,HEIGHT))
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
-        cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
-        cap.set(cv2.CAP_PROP_BRIGHTNESS , -1)
-        aw = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-        ah = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-        aa = cap.get(cv2.CAP_PROP_AUTO_EXPOSURE)
-        ab = cap.get(cv2.CAP_PROP_BRIGHTNESS)
-        print("SET_WIDTH={0},SET_HEIGHT={1}\n".format(aw,ah))
-        print("SET_EXPOSURE={0},SET_BRIGHT={1}\n".format(aa,ab))
-        # キャプチャの実施
-        ret, frame = cap.read()
-        if ret:
-            # ファイル名に日付を指定
-            path = STRDIR+"/" + time_header + "_"+str(DEV_ID)+".jpg"
-            cv2.imwrite(path, frame)
-        # 後片付け
-        cap.release()
-        #cv2.destroyAllWindows()
 #
     ni.ifaddresses('eth0')
     ip = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr']
@@ -189,8 +149,7 @@ def main():
         'ip': ip,
         'p0': a0ang,
         'p1': a1ang,
-        'p2': height_avg,
-        'p3': distance_avg
+        'p2': height_avg
     }
     files = { 'file0': open(path, 'rb') }
     headers = {"Content-Type": "multipart/form-data"}
@@ -211,12 +170,4 @@ if __name__ == "__main__":
     WIDTH = 2592
     HEIGHT = 1944
     main()
-#    DEV_ID = 0
-#    WIDTH = 640
-#    HEIGHT = 480
-#    main()
-#    DEV_ID = 2
-#    WIDTH = 1280
-#    HEIGHT = 720
-#    main()
     GPIO.output(D2,GPIO.HIGH)
