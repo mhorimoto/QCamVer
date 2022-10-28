@@ -17,7 +17,7 @@ def reboot(channel):
     os.system("sudo reboot")
 
 def take_pic(channel):
-    os.system("sudo /usr/local/bin/cucucam.py")
+    os.system("sudo /usr/local/bin/qcamver.py")
 
 GPIO.add_event_detect(24, GPIO.FALLING, callback = shutdown, bouncetime = 2000)
 GPIO.add_event_detect(23, GPIO.FALLING, callback = take_pic, bouncetime = 2000)
