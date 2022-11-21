@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+import os
 import json
 import requests
 import time
@@ -15,7 +16,6 @@ import board
 import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
-
 
 CONFIGFILE = "/usr/local/etc/QCamVer.conf"
 
@@ -36,7 +36,6 @@ if (dbgmsg=="0"):
     dbg = False
 else:
     dbg = True
-
 
 print(dbg)
 if (dbg):
@@ -160,9 +159,8 @@ def main():
         data=data1,
         files=files)
     print (response.text)
-
+    os.remove(path)
     return
-
 
 if __name__ == "__main__":
     GPIO.output(D2,GPIO.LOW)
